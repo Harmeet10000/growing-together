@@ -22,31 +22,32 @@ const Page = () => {
 
   console.log(baseUrl)
 
-  const fetchVideos = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${baseUrl}/api/get-all-video`);
-      const data = await response.json();
-      if (data.success) {
-        setVideos(data.videos); // Assuming the response has this structure
-      } else {
-        setError("Failed to fetch videos");
-      }
-    } catch (err) {
-      console.error(err); // Log the error
-      toast({
-        variant: "destructive",
-        description: "Failed to fetch videos",
-      });
-      setError("An error occurred while fetching videos");
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   useEffect(() => {
+      const fetchVideos = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(`${baseUrl}/api/get-all-video`);
+          const data = await response.json();
+          if (data.success) {
+            setVideos(data.videos); // Assuming the response has this structure
+          } else {
+            setError("Failed to fetch videos");
+          }
+        } catch (err) {
+          console.error(err); // Log the error
+          toast({
+            variant: "destructive",
+            description: "Failed to fetch videos",
+          });
+          setError("An error occurred while fetching videos");
+        } finally {
+          setLoading(false);
+        }
+      };
     fetchVideos();
-  }, []);
+  }, [baseUrl]);
 
   // Function to add a new video to the list
   const addVideo = (newVideo: VideoType) => {
